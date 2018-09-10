@@ -1,6 +1,7 @@
 package com.taae.simple.ecommerceservice;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.taae.simple.ecommerceservice.model.Category;
+import com.taae.simple.ecommerceservice.model.Product;
 import com.taae.simple.ecommerceservice.repository.CategoryRepository;
+import com.taae.simple.ecommerceservice.repository.ProductRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -17,27 +20,37 @@ public class ECommerceServiceApplicationTests {
 
 	@Autowired
 	CategoryRepository categoryRepository;
-	
+	@Autowired
+	ProductRepository productRepository;
+
 	@Test
 	public void contextLoads() {
 		System.out.println("context is loaded");
 		
-		List<Category> categories = categoryRepository.findAll();
-		for(Category cat : categories){
-			System.out.println(cat.getParentCatetoryName() + cat.getCategoryName());
-			//recursiveTree(cat, "");
+		Optional<Category> categories = categoryRepository.findById(13l);
+//		for(Category cat : categories){
+//			System.out.println(cat.getParentCatetoryName() + cat.getCategoryName());
+//			//recursiveTree(cat, "");
+//		}
+		
+		if(categories.isPresent()){
+			Product product = new Product();
+			product.setProductName("Apple iPhone 6 64GB เครื่องแท้ (Refurbished)");
+			product.setCategory(categories.get());
+			
+			productRepository.save(product);
 		}
 		
 		
 	}
-	
-//	public void recursiveTree(Category cat, String prefix) {
-//        System.out.println(prefix + cat.getCategoryName());
-//        if (cat.getChildren().size() > 0) {
-//            for (Category c : cat.getChildren()) {
-//                recursiveTree(c, " - ");
-//            }
-//        }
-//    }
+
+	// public void recursiveTree(Category cat, String prefix) {
+	// System.out.println(prefix + cat.getCategoryName());
+	// if (cat.getChildren().size() > 0) {
+	// for (Category c : cat.getChildren()) {
+	// recursiveTree(c, " - ");
+	// }
+	// }
+	// }
 
 }

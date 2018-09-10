@@ -1,6 +1,8 @@
 
 package com.taae.simple.ecommerceservice.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +16,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "category")
 @NamedQuery(name = "Category.findByParentIsNull", query = "select s from Category s where s.parent = null")
-public class Category {
+public class Category  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2463765515800739518L;
 
 	@Id
 	@GeneratedValue
