@@ -1,0 +1,3 @@
+
+docker rm $(docker ps --all -q -f status=exited)
+docker run -p 3306:3306 --name mysql5.7 -e MYSQL_ROOT_PASSWORD=mosfet -d mysql:5.7
