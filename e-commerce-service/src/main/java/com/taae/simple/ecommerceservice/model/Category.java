@@ -13,9 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "category")
 @NamedQuery(name = "Category.findByParentIsNull", query = "select s from Category s where s.parent = null")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category  implements Serializable{
 
 	/**

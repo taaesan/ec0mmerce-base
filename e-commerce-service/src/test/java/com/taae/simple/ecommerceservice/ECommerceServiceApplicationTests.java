@@ -26,22 +26,25 @@ public class ECommerceServiceApplicationTests {
 	@Test
 	public void contextLoads() {
 		System.out.println("context is loaded");
-		
+
 		Optional<Category> categories = categoryRepository.findById(13l);
-//		for(Category cat : categories){
-//			System.out.println(cat.getParentCatetoryName() + cat.getCategoryName());
-//			//recursiveTree(cat, "");
-//		}
-		
-		if(categories.isPresent()){
-			Product product = new Product();
-			product.setProductName("Apple iPhone 6 64GB เครื่องแท้ (Refurbished)");
-			product.setCategory(categories.get());
-			
-			productRepository.save(product);
+		// for(Category cat : categories){
+		// System.out.println(cat.getParentCatetoryName() +
+		// cat.getCategoryName());
+		// //recursiveTree(cat, "");
+		// }
+
+		if (categories.isPresent()) {
+
+			for (int i = 0; i < 50; i++) {
+				Product product = new Product();
+				product.setProductName("Apple iPhone "+i);
+				product.setCategory(categories.get());
+
+				productRepository.save(product);
+			}
 		}
-		
-		
+
 	}
 
 	// public void recursiveTree(Category cat, String prefix) {
