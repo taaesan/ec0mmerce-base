@@ -1,8 +1,10 @@
+import { ProductService } from './../service/product.service';
+import { RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
-import { Http } from '@angular/http';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
+import { MatPaginator, MatTableDataSource, PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-product',
@@ -14,14 +16,17 @@ export class ProductComponent implements OnInit {
   resultsLength = 0;
   pageIndex = 0;
   offset = 0;
-  constructor(private _http:Http){
-       
+
+  productName = "";
+
+  constructor(private productService: ProductService) {
+
 
   }
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['position', 'name', 'price','weight', 'symbol'];
   dataSource = new MatTableDataSource<ProductElement>();
-  data:Observable<Response>;
+  data: Observable<Response>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -32,33 +37,61 @@ export class ProductComponent implements OnInit {
 
   }
 
-  loadData(pageIndex:number){
+  loadData(pageIndex: number) {
 
-    this._http.get('http://localhost:8080/productslist?page='+pageIndex+'&size=20')
-    .subscribe(response =>{
-      console.log(response.json());
-      //this.dataSource = new MatTableDataSource<ProductElement>(response.json().content);
-      this.dataSource.data = response.json().content;
-      this.resultsLength = response.json().totalElements;
-      this.pageIndex = response.json().pageable.pageNumber;
-      
-    });
+    this.productService.findAllProduct(pageIndex)
+      .subscribe(response => {
+        console.log(response);
+        this.dataSource.data = response.content;
+        this.resultsLength = response.totalElements;
+        this.pageIndex = response.pageable.pageNumber;
+
+      });
   }
 
   getNext(event: PageEvent) {
-    this.loadData(event.pageIndex);
+    if (this.productName.length == 0) {
+      this.loadData(event.pageIndex);
+    }else{
+      this.searchProduct(event.pageIndex);
+    }
   }
+
+  searchProduct(pageIndex: number) {
+    console.log("search : " + this.productName);
+
+    if (this.productName.length > 0) {
+
+      this.productService.findProduct(this.productName, pageIndex)
+      .subscribe(response => {
+        console.log(response);
+        this.dataSource.data = response.content;
+        this.resultsLength = response.totalElements;
+        this.pageIndex = response.pageable.pageNumber;
+
+      });
+    }
+  }
+
 
 }
 
-export interface ProductElement{
+export interface ProductResponse {
+  content: ProductElement[];
+  pageable: { pageNumber };
+  totalElements: number;
+}
+
+export interface ProductElement {
   id: number;
   productName: string;
   createdDate: Date;
   category: Category;
+  price: number;
 }
 
-export interface Category{
+export interface Category {
+  id: number;
   categoryName: string;
-  parent:Category;
+  parent: Category;
 }

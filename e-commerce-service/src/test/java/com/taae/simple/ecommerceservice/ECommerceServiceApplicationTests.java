@@ -1,5 +1,6 @@
 package com.taae.simple.ecommerceservice;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +37,24 @@ public class ECommerceServiceApplicationTests {
 
 		if (categories.isPresent()) {
 
+			int j = 1;
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.DATE, j++);
+			
 			for (int i = 0; i < 50; i++) {
+				
+
+				
 				Product product = new Product();
 				product.setProductName("Apple iPhone "+i);
 				product.setCategory(categories.get());
+				
+				if(i % 10 == 0){
+					cal.set(Calendar.DAY_OF_MONTH, j++);
+				}
+				
+				product.setCreatedDate(cal.getTime());
+				System.out.println(product.getCreatedDate());
 
 				productRepository.save(product);
 			}

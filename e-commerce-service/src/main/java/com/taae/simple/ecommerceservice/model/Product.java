@@ -2,6 +2,7 @@
 package com.taae.simple.ecommerceservice.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "product")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@NamedQuery(name = "Product.findByProductName",
+query = "select s from Product s where LOWER(s.productName) like CONCAT('%', LOWER(:productName), '%')")
 public class Product  implements Serializable{
 	/**
 	 * 
@@ -32,11 +36,14 @@ public class Product  implements Serializable{
 	private String productName;
 
 	@Column(name="created_date")
-	private java.util.Date createdDate = new Date();
+	private java.util.Date createdDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	@Column(name="price")
+	private BigDecimal price;
 
 	public long getId() {
 		return id;
@@ -69,6 +76,14 @@ public class Product  implements Serializable{
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 

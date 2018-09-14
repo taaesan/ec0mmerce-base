@@ -1,5 +1,23 @@
+<div class="form-row">
+  <div class="col-2">
+    <input [(ngModel)]="productName" (keyup.enter)="searchProduct(0)" type="text" class="form-control" placeholder="Product Name">
+  </div>
+  <div class="col-2">
+    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+      <option value="0" selected>All</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </div>
+  <div class="col">
+    <button type="button" class="btn btn-primary mb-2" (click)="searchProduct()">Search</button>
+  </div>
+</div>
+
 <div class="mat-elevation-z8">
-<mat-paginator [length]="resultsLength" [pageIndex]="pageIndex" [pageSize]="20"  (page)="getNext($event)" showFirstLastButtons></mat-paginator>
+  <mat-paginator [length]="resultsLength" [pageIndex]="pageIndex" [pageSize]="10" (page)="getNext($event)"
+    showFirstLastButtons></mat-paginator>
   <table mat-table [dataSource]="dataSource">
 
     <!-- Position Column -->
@@ -14,10 +32,15 @@
       <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.price | number:'0.2-2'}} </td>
+    </ng-container>
+
     <!-- Weight Column -->
     <ng-container matColumnDef="weight">
       <th mat-header-cell *matHeaderCellDef> Created Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.createdDate}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.createdDate | date: 'dd/MM/yyyy'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->

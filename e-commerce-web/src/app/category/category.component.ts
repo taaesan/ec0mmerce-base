@@ -1,3 +1,6 @@
+import { MatTableDataSource } from '@angular/material';
+import { Category } from './../product/product.component';
+import { CategoryService } from './../service/category.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryComponent implements OnInit {
 
-  constructor() { }
+
+  displayedColumns: string[] = ['no', 'name', 'parent'];
+  dataSource = new MatTableDataSource<Category>();
+
+  constructor(private service: CategoryService) { }
 
   ngOnInit() {
+    this.service.findCategory(null)
+      .subscribe(response => {
+        console.log(response);
+        this.dataSource.data = response;
+
+      });
   }
+
+
 
 }
