@@ -162,4 +162,93 @@ public class ProductController {
 		return result;
 	}
 
+	@CrossOrigin
+	@PostMapping("/savecategory")
+	Category saveCategory(@RequestBody Map<String, String> body) {
+
+		Category result = null;
+
+		String categoryId = body.get("categoryId");
+		String newCategoryName = body.get("categoryName");
+		String newParentCategoryId = body.get("parentId");
+
+		// Update an existing product
+		if (categoryId != null) {
+			Optional<Category> existingCategory = categoryRepo.findById(Long.valueOf(categoryId));
+			if (existingCategory.isPresent()) {
+				Category category = existingCategory.get();
+				category.setCategoryName(newCategoryName);
+
+				if (newParentCategoryId != null) {
+					Optional<Category> categoryOption = categoryRepo.findById(Long.valueOf(newParentCategoryId));
+					category.setParent(categoryOption.get());
+				}
+
+				// Save
+				result = categoryRepo.save(category);
+			}
+		} else {
+			// Add a new product
+			Category category = new Category();
+			category.setCategoryName(newCategoryName);
+
+			Optional<Category> categoryOption = categoryRepo.findById(Long.valueOf(newParentCategoryId));
+			category.setParent(categoryOption.get());
+
+			// Save
+			result = categoryRepo.save(category);
+		}
+
+		return result;
+	}
+
+	@CrossOrigin
+	@PostMapping("/delete.category")
+	Category deleteCategory(@RequestBody Map<String, String> body) {
+		Category result = null;
+
+		long categoryId = Long.valueOf(body.get("categoryId"));
+
+		Optional<Category> rootCat = categoryRepo.findById(categoryId);
+		if (rootCat.isPresent()) {
+			// Delete child first
+
+			// Delete all child in product
+			List<Product> products = productRepo.findByCategory(categoryId);
+			for (Product product : products) {
+				productRepo.deleteById(product.getId());
+			}
+
+			List<Category> categories = categoryRepo.findCategoryChild(rootCat.get());
+			for (Category cat : categories) {
+
+				// Delete all child in product
+				products = productRepo.findByCategory(cat.getId());
+				for (Product product : products) {
+					productRepo.deleteById(product.getId());
+				}
+
+				// Delete main
+				categoryRepo.deleteById(cat.getId());
+			}
+
+			// Delete main
+			categoryRepo.deleteById(categoryId);
+		}
+
+		return result;
+	}
+
+	@CrossOrigin
+	@PostMapping("/delete.product")
+	Product deleteProduct(@RequestBody Map<String, String> body) {
+		Product result = null;
+
+		long productId = Long.valueOf(body.get("productId"));
+
+		productRepo.deleteById(productId);
+
+		return result;
+	}
+
 }

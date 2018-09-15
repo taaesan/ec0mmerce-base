@@ -2,6 +2,7 @@ package com.taae.simple.ecommerceservice.repository;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,8 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
 	
 	@Query("select s from Product s where s.price <= :priceMax ")
 	Page<Product> findByPrice(@Param("priceMax") BigDecimal priceMax, Pageable page);
+	
+	@Query("select s from Product s where s.categoryId = :categoryId ")
+	List<Product> findByCategory(@Param("categoryId") long categoryId);
+	
 }

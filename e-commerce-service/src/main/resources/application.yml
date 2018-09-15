@@ -11,7 +11,7 @@ databaseUrl: jdbc:mysql://localhost:3306/simple_ecommerce_db?useUnicode=yes&char
 databaseUser: root
 databasePassword: mosfet
 hibernateDialect: org.hibernate.dialect.MySQLDialect
-hibernateShowSql: true
+hibernateShowSql: false
 hibernateFormatSql: true
 hibernateIdNewGenerator: false 
 redisHost: localhost

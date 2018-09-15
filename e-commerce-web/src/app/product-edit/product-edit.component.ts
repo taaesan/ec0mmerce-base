@@ -29,6 +29,7 @@ export class ProductEditComponent implements OnInit {
         console.log(res);
         this.product = res;
         this.selectedCategory = res.category.id;
+        this.productNameChanged = res.productName;
         this.priceChanged = res.price;
         
       });

@@ -32,15 +32,13 @@ export class CategoryAddComponent implements OnInit {
   }
 
   save() {
-
-    if (this.categoryNameChanged.length != 0) {
-      console.log(this.categoryNameChanged);
-      console.log(this.selectedCategory);
-
-
-      this.router.navigate(['/categories']);
+    console.log(this.categoryNameChanged);
+    
+    if (this.categoryNameChanged.length > 0) {
+      this.categoryService.save(null, this.categoryNameChanged, this.selectedCategory).subscribe(res => {
+        this.router.navigate(['/categories']);
+      });
     }
-
   }
 
 }

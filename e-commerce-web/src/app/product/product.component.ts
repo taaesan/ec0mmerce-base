@@ -86,6 +86,23 @@ export class ProductComponent implements OnInit {
     //}
   }
 
+  delete($event) {
+
+    if (confirm('Are you sure to delete this?')) {
+
+      let target = $event.target || $event.srcElement || $event.currentTarget;
+      let idAttr = target.attributes.id;
+      let id = idAttr.nodeValue;
+      console.log(id);
+
+      this.productService.delete(id).subscribe(res => {
+        console.log('Deleted Product : ' + id);
+        this.loadData(0);
+      });
+
+    }
+  }
+
 
 }
 

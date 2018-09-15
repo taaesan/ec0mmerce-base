@@ -39,4 +39,10 @@ export class ProductService {
     let categoryJSON = { productId: productId, productName:productName, price:price, categoryId:categoryId};
     return this.http.post<ProductElement>('http://localhost:8080/saveproduct', JSON.stringify(categoryJSON), this.options);
   }
+
+  delete(productId):Observable<ProductElement>{
+    console.log("delete...");
+    let categoryJSON = { productId:productId};
+    return this.http.post<ProductElement>('http://localhost:8080/delete.product', JSON.stringify(categoryJSON), this.options);
+  }
 }

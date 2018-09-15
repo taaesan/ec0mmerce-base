@@ -3,7 +3,6 @@ package com.taae.simple.ecommerceservice.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,6 +21,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 //@NamedQuery(name = "Product.findByProductName",
 //	query = "select s from Product s where LOWER(s.productName) like CONCAT('%', LOWER(:productName), '%') ")
 public class Product  implements Serializable{
+	
+	public Product(){}
+	
+	public Product(String productName, BigDecimal price) {
+		super();
+		this.productName = productName;
+		this.price = price;
+	}
+
 	/**
 	 * 
 	 */

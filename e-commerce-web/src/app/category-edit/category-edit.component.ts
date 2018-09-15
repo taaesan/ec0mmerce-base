@@ -15,9 +15,9 @@ export class CategoryEditComponent implements OnInit {
   categories: Category[];
 
   selectedCategory = 0;
-  categoryNameChanged;
+  categoryNameChanged = "";
 
-  constructor(private router:Router, private activedRoute: ActivatedRoute, private categoryService: CategoryService) { }
+  constructor(private router: Router, private activedRoute: ActivatedRoute, private categoryService: CategoryService) { }
 
   ngOnInit() {
 
@@ -28,6 +28,7 @@ export class CategoryEditComponent implements OnInit {
       this.categoryService.findCategoryById(id).subscribe(res => {
         //console.log(res.categoryName);
         this.category = res;
+        this.categoryNameChanged = res.categoryName;
         this.selectedCategory = res.parent.id;
         console.log(this.category);
       });
@@ -42,15 +43,18 @@ export class CategoryEditComponent implements OnInit {
 
     });
 
-  
+
 
   }
 
-  save(){
+  save() {
     console.log(this.categoryNameChanged);
-    console.log(this.selectedCategory);
-
-    this.router.navigate(['/categories']);
+    
+    if (this.categoryNameChanged.length > 0) {
+      this.categoryService.save(this.category.id, this.categoryNameChanged, this.selectedCategory).subscribe(res => {
+        this.router.navigate(['/categories']);
+      });
+    }
   }
 
 }
