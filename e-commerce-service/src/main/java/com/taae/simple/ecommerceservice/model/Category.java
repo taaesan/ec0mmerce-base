@@ -21,6 +21,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category  implements Serializable{
 
+	public Category(){}
+	
+	public Category(String categoryName, Category parent) {
+		super();
+		this.categoryName = categoryName;
+		this.parent = parent;
+	}
+
 	/**
 	 * 
 	 */

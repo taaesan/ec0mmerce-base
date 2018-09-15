@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "product")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@NamedQuery(name = "Product.findByProductName",
-query = "select s from Product s where LOWER(s.productName) like CONCAT('%', LOWER(:productName), '%')")
+//@NamedQuery(name = "Product.findByProductName",
+//	query = "select s from Product s where LOWER(s.productName) like CONCAT('%', LOWER(:productName), '%') ")
 public class Product  implements Serializable{
 	/**
 	 * 
@@ -39,11 +39,14 @@ public class Product  implements Serializable{
 	private java.util.Date createdDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "category_id", insertable =  false, updatable = false)
 	private Category category;
 	
 	@Column(name="price")
 	private BigDecimal price;
+	
+	@Column(name = "category_id")
+	private long categoryId;
 
 	public long getId() {
 		return id;
@@ -84,6 +87,14 @@ public class Product  implements Serializable{
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 

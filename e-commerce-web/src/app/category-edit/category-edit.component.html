@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-body">
+<div class="form-group">
+  <label for="exampleFormControlInput1">Category Name</label>
+  <input type="text" class="form-control" id="exampleFormControlInput1" [ngModel]="category?.categoryName" [(ngModel)]="categoryNameChanged">
+</div>
+<div class="form-group">
+  <label for="exampleFormControlSelect1">Parent Category</label>
+  <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" [(ngModel)]="selectedCategory">
+    <option value="0" selected>All</option>
+    <option *ngFor="let c of categories" [ngValue]="c.id">{{c.categoryName}}</option>
+  </select>
+</div>
+
+<div class="col-2">
+  <button type="button" class="btn btn-primary mb-2" (click)="save()">Save</button>
+</div>
+</div></div>

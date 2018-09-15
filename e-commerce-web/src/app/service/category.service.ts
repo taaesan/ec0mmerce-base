@@ -18,4 +18,10 @@ export class CategoryService {
     let categoryJSON = { categoryName: categoryName};
     return this.http.post<Category[]>('http://localhost:8080/searchcategory', JSON.stringify(categoryJSON), this.options);
   }
+
+  findCategoryById(id):Observable<Category>{
+    let categoryJSON = { id: id};
+    return this.http.post<Category>('http://localhost:8080/searchcategoryid', JSON.stringify(categoryJSON), this.options);
+  }
+  
 }

@@ -1,3 +1,4 @@
+import { CategoryService } from './../service/category.service';
 import { ProductService } from './../service/product.service';
 import { RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
@@ -18,13 +19,16 @@ export class ProductComponent implements OnInit {
   offset = 0;
 
   productName = "";
+  categories:Category[];
+  selectedCategory = 0;
+  priceRange = 50000;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private categoryService: CategoryService) {
 
 
   }
 
-  displayedColumns: string[] = ['position', 'name', 'price','weight', 'symbol'];
+  displayedColumns: string[] = ['position', 'name', 'price', 'weight', 'symbol'];
   dataSource = new MatTableDataSource<ProductElement>();
   data: Observable<Response>;
 
@@ -47,12 +51,21 @@ export class ProductComponent implements OnInit {
         this.pageIndex = response.pageable.pageNumber;
 
       });
+
+    this.categoryService.findCategory(null)
+      .subscribe(response => {
+        console.log(response);
+        this.categories = response;
+
+      });
   }
+
+
 
   getNext(event: PageEvent) {
     if (this.productName.length == 0) {
       this.loadData(event.pageIndex);
-    }else{
+    } else {
       this.searchProduct(event.pageIndex);
     }
   }
@@ -60,17 +73,17 @@ export class ProductComponent implements OnInit {
   searchProduct(pageIndex: number) {
     console.log("search : " + this.productName);
 
-    if (this.productName.length > 0) {
+    //if (this.productName.length > 0) {
 
-      this.productService.findProduct(this.productName, pageIndex)
-      .subscribe(response => {
-        console.log(response);
-        this.dataSource.data = response.content;
-        this.resultsLength = response.totalElements;
-        this.pageIndex = response.pageable.pageNumber;
+      this.productService.findProduct(this.productName, this.selectedCategory, this.priceRange, pageIndex)
+        .subscribe(response => {
+          console.log(response);
+          this.dataSource.data = response.content;
+          this.resultsLength = response.totalElements;
+          this.pageIndex = response.pageable.pageNumber;
 
-      });
-    }
+        });
+    //}
   }
 
 
