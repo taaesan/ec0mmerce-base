@@ -39,15 +39,15 @@ public class ECommerceServiceApplicationTests {
 		System.out.println(categories);
 	}
 
-	@Test
+	@Ignore
 	public void genData() {
 		System.out.println("context is loaded");
 		
-		//genMassProduct(1000, ProductFactory.getFactory(Brand.SUPER_DRY), 9l);
-		//genMassProduct(1000, ProductFactory.getFactory(Brand.APPLE), 7l);
-		//genMassProduct(1000, ProductFactory.getFactory(Brand.SAMSUNG), 8l);
-	//genMassProduct(1000, ProductFactory.getFactory(Brand.QUILLA), 10l);
-		genMassProduct(1000, ProductFactory.getFactory(Brand.DELL), 11l);
+		genMassProduct(20000, ProductFactory.getFactory(Brand.SUPER_DRY), 9l);
+		genMassProduct(20000, ProductFactory.getFactory(Brand.APPLE), 7l);
+		genMassProduct(20000, ProductFactory.getFactory(Brand.SAMSUNG), 8l);
+		genMassProduct(20000, ProductFactory.getFactory(Brand.QUILLA), 10l);
+		genMassProduct(20000, ProductFactory.getFactory(Brand.DELL), 11l);
 	}
 	
 	public void genMassProduct(int record, ProductFactory fac, long catId){
@@ -75,7 +75,7 @@ public class ECommerceServiceApplicationTests {
 				temp.setCreatedDate(cal.getTime());
 				
 				productRepository.save(temp);
-				System.out.println("gen :"+i);
+//				System.out.println("gen :"+i);
 			}
 			
 		}

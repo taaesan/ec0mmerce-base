@@ -63,11 +63,11 @@ export class ProductComponent implements OnInit {
 
 
   getNext(event: PageEvent) {
-    if (this.productName.length == 0) {
-      this.loadData(event.pageIndex);
-    } else {
+    // if (this.productName.length == 0) {
+    //   this.loadData(event.pageIndex);
+    // } else {
       this.searchProduct(event.pageIndex);
-    }
+    // }
   }
 
   searchProduct(pageIndex: number) {
