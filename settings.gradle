@@ -1,1 +1,3 @@
 rootProject.name = 'e-commerce-base'
+
+include 'e-commerce-service'

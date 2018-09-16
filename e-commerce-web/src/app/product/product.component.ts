@@ -49,8 +49,8 @@ export class ProductComponent implements OnInit {
         this.dataSource.data = response.content;
         this.resultsLength = response.totalElements;
         this.pageIndex = response.pageable.pageNumber;
-
       });
+    //this.searchProduct(pageIndex);
 
     this.categoryService.findCategory(null)
       .subscribe(response => {
@@ -63,15 +63,15 @@ export class ProductComponent implements OnInit {
 
 
   getNext(event: PageEvent) {
-    // if (this.productName.length == 0) {
-    //   this.loadData(event.pageIndex);
-    // } else {
+    if (this.productName.length == 0 && this.selectedCategory == 0) {
+      this.loadData(event.pageIndex);
+    } else {
       this.searchProduct(event.pageIndex);
-    // }
+    }
   }
 
   searchProduct(pageIndex: number) {
-    console.log("search : " + this.productName);
+    console.log("search product : " + this.productName+ " "+this.selectedCategory);
 
     //if (this.productName.length > 0) {
 

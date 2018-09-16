@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -33,8 +35,8 @@ public class AppServiceImpl implements AppService {
 	@Autowired
 	CategoryRepository categoryRepository;
 
+
 	@Override
-	//@Cacheable(value= "listProductCache", unless= "#result.getContent().size() == 0")
 	public Page<Product> list(Pageable pageAble) {
 		Sort sort = Sort.by(new Order(Direction.DESC, "createdDate"), new Order(Direction.DESC, "id"));
 
@@ -43,7 +45,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	//@Cacheable(value= "listProductCache", unless= "#result.getContent().size() == 0")
+	//@Cacheable(value="products")
 	public Page<Product> listByProduct(Map<String, String> body) {
 		Page<Product> result = null;
 
@@ -70,7 +72,6 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	@Cacheable(value= "listCategoryCache", unless= "#result.size() == 0")
 	public List<Category> searchCategory(Map<String, String> body) {
 		List<Category> result = null;
 
@@ -110,10 +111,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-//	@Caching(
-//			put= { @CachePut(value= "productCache", key= "#product.productName") },
-//			evict= { @CacheEvict(value= "listProductCache", allEntries= true) }
-//		)
+	//@CachePut(value="products", key="#body.productName")
 	public Product saveProduct(Map<String, String> body) {
 		Product result = null;
 
@@ -158,10 +156,6 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	@Caching(
-			put= { @CachePut(value= "categoryCache", key= "#result.categoryName") },
-			evict= { @CacheEvict(value= "listCategoryCache", allEntries= true) }
-		)
 	public Category saveCategory(Map<String, String> body) {
 		Category result = null;
 
@@ -199,16 +193,84 @@ public class AppServiceImpl implements AppService {
 		return result;
 	}
 
+	
+//	@Override
+//	@Caching(			
+//			put= { @CachePut(value= "categoryCache") },
+//			evict= { @CacheEvict(value= "listCategoryCache", allEntries= true) }
+//		)
+//	public Category deleteCategory(Map<String, String> body) {
+//		Category result = null;
+//
+//		long categoryId = Long.valueOf(body.get("categoryId"));
+//		
+//		Optional<Category> rootCat = categoryRepository.findById(categoryId);
+//		if (rootCat.isPresent()) {
+//			
+//			// Delete main
+//			categoryRepository.deleteById(categoryId);
+//		}
+//
+//		return result;
+//	}	
+	
+//	@Override
+//	@Caching(
+//			put= { @CachePut(value= "categoryCache", key= "#result.categoryName") },
+//			evict= { @CacheEvict(value= "listCategoryCache", allEntries= true) }
+//		)
+//	@Transactional
+//	public Category deleteCategory(Map<String, String> body) {
+//		Category result = null;
+//
+//		long categoryId = Long.valueOf(body.get("categoryId"));
+//		
+//		Optional<Category> rootCat = categoryRepository.findById(categoryId);
+//		if (rootCat.isPresent()) {
+//			
+//			entityManager.flush();
+//			//entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
+//			// Delete child first
+//			System.out.println("Truncate Temp");
+//			//productRepository.truncateTemp();
+//			entityManager.createNativeQuery(" TRUNCATE TABLE  product_temp").executeUpdate();
+//			entityManager.getTransaction().commit();
+//			
+//			System.out.println("Copy to Temp");
+//			//productRepository.copyToTemp(categoryId);
+//			Query query = entityManager.createNativeQuery("insert into product_temp(id, category_id, created_date, price, product_name) select id, category_id, created_date, price, product_name from product where category_id != ?");
+//			query.setParameter(1, categoryId);
+//			query.executeUpdate();
+//			entityManager.getTransaction().commit();
+//			
+//			System.out.println("Truncate Original");
+//			//productRepository.truncateOriginal();
+//			entityManager.createNativeQuery("TRUNCATE TABLE  product").executeUpdate();
+//			entityManager.getTransaction().commit();
+//			
+//			System.out.println("Copy to Original");
+//			//productRepository.copyToOriginal();
+//			entityManager.createNativeQuery("insert into product(id, category_id, created_date, price, product_name) select id, category_id, created_date, price, product_name from product_temp ").executeUpdate();
+//			entityManager.getTransaction().commit();
+//			
+//			entityManager.createNativeQuery("TRUNCATE TABLE  product_temp").executeUpdate();
+//			entityManager.getTransaction().commit();
+//			//entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+//			
+//			// Delete main
+//			categoryRepository.deleteById(categoryId);
+//		}
+//
+//		return result;
+//	}
+	
 	@Override
-	@Caching(
-			put= { @CachePut(value= "categoryCache", key= "#result.categoryName") },
-			evict= { @CacheEvict(value= "listCategoryCache", allEntries= true) }
-		)
 	public Category deleteCategory(Map<String, String> body) {
 		Category result = null;
 
 		long categoryId = Long.valueOf(body.get("categoryId"));
 
+		
 		Optional<Category> rootCat = categoryRepository.findById(categoryId);
 		if (rootCat.isPresent()) {
 			// Delete child first
@@ -240,6 +302,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
+	@CacheEvict(value="products", allEntries=true)
 	public Product deleteProduct(Map<String, String> body) {
 		Product result = null;
 

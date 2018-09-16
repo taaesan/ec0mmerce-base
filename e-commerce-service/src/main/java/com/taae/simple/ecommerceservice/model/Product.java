@@ -13,13 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "product")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//@NamedQuery(name = "Product.findByProductName",
-//	query = "select s from Product s where LOWER(s.productName) like CONCAT('%', LOWER(:productName), '%') ")
 public class Product  implements Serializable{
 	
 	public Product(){}

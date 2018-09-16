@@ -26,4 +26,19 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
 	@Query("select s from Product s where s.categoryId = :categoryId ")
 	List<Product> findByCategory(@Param("categoryId") long categoryId);
 	
+	
+//	//Technic to delete huge row
+//	@Query(value="insert into product_temp(id, category_id, created_date, price, product_name) select id, category_id, created_date, price, product_name from product where category_id != :categoryId ", nativeQuery = true)
+//	void copyToTemp(@Param("categoryId") long categoryId);
+//	
+//	@Query(value="insert into product(id, category_id, created_date, price, product_name) select id, category_id, created_date, price, product_name from product_temp  ", nativeQuery = true)
+//	void copyToOriginal();
+//	
+//	@Query(value=" truncate table product ", nativeQuery = true)
+//	void truncateOriginal();
+//	
+//	@Query(value=" truncate table product_temp ", nativeQuery = true)
+//	void truncateTemp();
+	
+	
 }
