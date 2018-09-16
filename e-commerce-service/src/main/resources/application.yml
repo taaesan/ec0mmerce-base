@@ -7,11 +7,11 @@ spring:
   ansi:
    enabled: always
 databaseDriverClassName: com.mysql.cj.jdbc.Driver
-databaseUrl: jdbc:mysql://localhost:3306/simple-ecommerce?useUnicode=yes&characterEncoding=UTF-8 
+databaseUrl: jdbc:mysql://localhost:3306/simple_ecommerce_db?useUnicode=yes&characterEncoding=UTF-8 
 databaseUser: root
 databasePassword: mosfet
 hibernateDialect: org.hibernate.dialect.MySQLDialect
-hibernateShowSql: true
+hibernateShowSql: false
 hibernateFormatSql: true
 hibernateIdNewGenerator: false 
 redisHost: localhost
@@ -26,13 +26,13 @@ spring:
   application:
     name: docker
 databaseDriverClassName: com.mysql.cj.jdbc.Driver
-databaseUrl: jdbc:mysql://database:3306/shorturldb
+databaseUrl: jdbc:mysql://database:3306/simple_ecommerce_db?useUnicode=yes&characterEncoding=UTF-8
 databaseUser: root
 databasePassword: mosfet
 hibernateDialect: org.hibernate.dialect.MySQLDialect
 hibernateShowSql: true
 hibernateFormatSql: true
 hibernateIdNewGenerator: false 
-redisHost: localhost
+redisHost: redis
 redisPort: 6379
 redisPassword: mosfet

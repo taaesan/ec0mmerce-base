@@ -10,13 +10,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "category")
-@NamedQuery(name = "Category.findByParentIsNull", query = "select s from Category s where s.parent = null")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category  implements Serializable{
+
+	public Category(){}
+	
+	public Category(String categoryName, Category parent) {
+		super();
+		this.categoryName = categoryName;
+		this.parent = parent;
+	}
 
 	/**
 	 * 
@@ -34,9 +43,6 @@ public class Category  implements Serializable{
 	@JoinColumn(name = "parent_id")
 	private Category parent;
 
-	// @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	// @JoinColumn(name="id")
-	// private java.util.List<Category> children = new ArrayList<>();
 
 	public long getId() {
 		return id;
@@ -72,15 +78,5 @@ public class Category  implements Serializable{
 		return result.toString();
 	}
 
-	// public java.util.List<Category> getChildren() {
-	// return children;
-	// }
-	//
-	// public void setChildren(java.util.List<Category> children) {
-	// this.children = children;
-	// }
-
-	// @ManyToMany(mappedBy="categories")
-	// private java.util.Set<Product> products;
 
 }

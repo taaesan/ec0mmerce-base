@@ -1,3 +1,6 @@
 
 docker rm $(docker ps --all -q -f status=exited)
-docker run -p 3306:3306 --name mysql5.7 -e MYSQL_ROOT_PASSWORD=mosfet -d mysql:5.7
+docker run -p 3306:3306 --name mysql5.7 -v /Users/taaesan/Documents/Github/e-commerce-base/e-commerce-service/sqlscript:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=mosfet -d mysql:5.7
+
+PHP MyAdmin
+docker run --name myadmin -d --link mysql5.7:db -p 8181:80 phpmyadmin/phpmyadmin

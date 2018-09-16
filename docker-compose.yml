@@ -1,0 +1,59 @@
+version: "3"
+services:
+ database:
+  image: mysql:5.7
+  networks:
+   - app-network
+  environment:
+   - MYSQL_ROOT_PASSWORD=mosfet   
+  volumes:
+   - ./sqlscript:/docker-entrypoint-initdb.d 
+   
+ database-admin:
+  image: phpmyadmin/phpmyadmin
+  networks:
+   - app-network
+  ports:
+   - 8887:80  
+  environment:
+    MYSQL_USERNAME: root
+    MYSQL_ROOT_PASSWORD: mosfet
+    PMA_HOST: database  
+  depends_on:
+   - database  
+ 
+ redis:
+  image: redis
+  ports:
+  - 6379:6379
+  networks:
+   - app-network
+  command: redis-server --requirepass mosfet
+  volumes:
+   - ./tmp:/data
+  depends_on:
+   - database   
+
+ restapi:
+  image: ecom-service
+  build: ./e-commerce-service
+  ports:
+   - 8080:8080 #export 8080 and Docker will pick a random one
+  networks:
+   - app-network
+  depends_on:
+   - database
+   - redis
+
+ angular:
+  image: ecom-front
+  build: ./e-commerce-web
+  ports:
+   - 4200:4200 #export 8080 and Docker will pick a random one
+  networks:
+   - app-network
+  depends_on:
+   - restapi
+
+networks:
+ app-network:
