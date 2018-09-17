@@ -23,7 +23,7 @@ services:
    - database  
  
  redis:
-  image: redis
+  image: redis:4.0-alpine
   ports:
   - 6379:6379
   networks:
@@ -35,7 +35,7 @@ services:
    - database   
 
  restapi:
-  image: ecom-service
+  image: back-end
   build: ./e-commerce-service
   ports:
    - 8080:8080 #export 8080 and Docker will pick a random one
@@ -46,7 +46,7 @@ services:
    - redis
 
  angular:
-  image: ecom-front
+  image: front-end
   build: ./e-commerce-web
   ports:
    - 4200:4200 #export 8080 and Docker will pick a random one
