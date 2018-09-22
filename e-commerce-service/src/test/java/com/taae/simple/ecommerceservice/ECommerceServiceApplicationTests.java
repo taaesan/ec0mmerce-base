@@ -39,15 +39,15 @@
 //		System.out.println(categories);
 //	}
 //
-//	@Ignore
+//	@Test
 //	public void genData() {
 //		System.out.println("context is loaded");
 //		
-//		genMassProduct(500, ProductFactory.getFactory(Brand.SUPER_DRY), 9l);
-//		genMassProduct(500, ProductFactory.getFactory(Brand.APPLE), 7l);
-//		genMassProduct(500, ProductFactory.getFactory(Brand.SAMSUNG), 8l);
-//		genMassProduct(500, ProductFactory.getFactory(Brand.QUILLA), 10l);
-//		genMassProduct(500, ProductFactory.getFactory(Brand.DELL), 11l);
+//		genMassProduct(100, ProductFactory.getFactory(Brand.SUPER_DRY), 9l);
+//		genMassProduct(100, ProductFactory.getFactory(Brand.APPLE), 7l);
+//		genMassProduct(100, ProductFactory.getFactory(Brand.SAMSUNG), 8l);
+//		genMassProduct(100, ProductFactory.getFactory(Brand.QUILLA), 10l);
+//		genMassProduct(100, ProductFactory.getFactory(Brand.DELL), 11l);
 //	}
 //	
 //	public void genMassProduct(int record, ProductFactory fac, long catId){

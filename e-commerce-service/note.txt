@@ -4,3 +4,27 @@ docker run -p 3306:3306 --name mysql5.7 -v /Users/taaesan/Documents/Github/e-com
 
 PHP MyAdmin
 docker run --name myadmin -d --link mysql5.7:db -p 8181:80 phpmyadmin/phpmyadmin
+
+docker exec -it redis redis-cli
+
+#####
+How to build images and push to docker hub
+#####
+
+web > ng build --prod
+service > gradlew build
+
+1. Prepare an images
+2. docker-compose build
+REPOSITORY              TAG                 IMAGE ID            CREATED              SIZE
+front-end               latest              9d38c5da8851        22 seconds ago       450MB
+back-end                latest              e88fd024601a        About a minute ago   287MB
+
+3. docker login(username: taaesan no@ no suffix)
+4. tag image
+docker tag 9d38c5da8851 taaesan/ecom:front-end
+docker tag e88fd024601a taaesan/ecom:back-end
+
+5. push
+docker push taaesan/ecom:front-end
+docker push taaesan/ecom:back-end

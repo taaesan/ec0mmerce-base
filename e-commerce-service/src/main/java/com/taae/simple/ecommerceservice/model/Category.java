@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -34,6 +37,7 @@ public class Category  implements Serializable{
 
 	@Id
 	@GeneratedValue
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	private long id;
 
 	@Column(name = "category_name")
