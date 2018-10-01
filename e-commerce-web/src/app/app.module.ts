@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { MatTableModule, MatPaginatorModule, MatInputModule, MatFormFieldModule, MatSelectModule } from '@angular/material'
+import { MatTableModule, MatPaginatorModule, MatProgressSpinnerModule } from '@angular/material'
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -51,9 +51,7 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
     
     MatTableModule,
     MatPaginatorModule,
-    MatInputModule,
-    MatFormFieldModule, 
-    MatSelectModule,
+    MatProgressSpinnerModule,
     
     HttpClientModule,
     HttpModule,

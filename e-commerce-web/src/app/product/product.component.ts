@@ -1,11 +1,11 @@
 import { CategoryService } from './../service/category.service';
 import { ProductService } from './../service/product.service';
-import { RequestOptions, Headers } from '@angular/http';
+
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource, PageEvent } from '@angular/material';
+import { MatPaginator, MatTableDataSource, PageEvent , MatSpinner} from '@angular/material';
 
 @Component({
   selector: 'app-product',
@@ -22,6 +22,9 @@ export class ProductComponent implements OnInit {
   categories:Category[];
   selectedCategory = 0;
   priceRange = 50000;
+
+  isLoadingResults:boolean = true;
+  isRateLimitReached = false;
 
   constructor(private productService: ProductService, private categoryService: CategoryService) {
 
@@ -43,6 +46,8 @@ export class ProductComponent implements OnInit {
 
   loadData(pageIndex: number) {
 
+    this.isLoadingResults = true;
+
     this.productService.findAllProduct(pageIndex)
       .subscribe(response => {
         console.log(response);
@@ -58,32 +63,35 @@ export class ProductComponent implements OnInit {
         this.categories = response;
 
       });
+
+      this.isLoadingResults = false;
   }
 
 
 
   getNext(event: PageEvent) {
+    
+
     if (this.productName.length == 0 && this.selectedCategory == 0) {
       this.loadData(event.pageIndex);
     } else {
       this.searchProduct(event.pageIndex);
     }
+
   }
 
   searchProduct(pageIndex: number) {
-    console.log("search product : " + this.productName+ " "+this.selectedCategory);
-
-    //if (this.productName.length > 0) {
-
+    this.isLoadingResults = true;
+    console.log("search product : " + this.productName);
+    console.log("category : " + this.selectedCategory);
       this.productService.findProduct(this.productName, this.selectedCategory, this.priceRange, pageIndex)
         .subscribe(response => {
           console.log(response);
           this.dataSource.data = response.content;
           this.resultsLength = response.totalElements;
           this.pageIndex = response.pageable.pageNumber;
-
         });
-    //}
+    this.isLoadingResults = false;
   }
 
   delete($event) {

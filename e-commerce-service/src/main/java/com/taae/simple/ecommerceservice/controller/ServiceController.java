@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taae.simple.ecommerceservice.model.Category;
+import com.taae.simple.ecommerceservice.model.Parameter;
 import com.taae.simple.ecommerceservice.model.Product;
 import com.taae.simple.ecommerceservice.service.AppService;
 
@@ -31,13 +32,13 @@ public class ServiceController {
 	@CrossOrigin
 	@PostMapping("/searchproduct")
 	Page<Product> listByProduct(@RequestBody Map<String, String> body) {
-		return service.listByProduct(body);
+		return service.listByProduct(new Parameter(body));
 	}
 
 	@CrossOrigin
 	@PostMapping("/searchcategory")
 	List<Category> searchCategory(@RequestBody Map<String, String> body) {
-		return service.searchCategory(body);
+		return service.listAllCategory();
 	}
 
 	@CrossOrigin

@@ -29,7 +29,9 @@ export class CategoryEditComponent implements OnInit {
         //console.log(res.categoryName);
         this.category = res;
         this.categoryNameChanged = res.categoryName;
-        this.selectedCategory = res.parent.id;
+        if(res.parent != null){
+          this.selectedCategory = res.parent.id;
+        }
         console.log(this.category);
       });
 
